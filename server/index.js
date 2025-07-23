@@ -1,32 +1,34 @@
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet");
+const app = express();
 require("dotenv").config();
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const pool = require("./db");
 
-// Middleware
-app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.get("/", (req, res) => {
-  res.json({ message: "DVD Rental API is running!" });
+// Database connection test endpoint
+app.get("/api/test-db", async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query("SELECT NOW()");
+    client.release();
+    res.json({
+      success: true,
+      message: "Database connected successfully",
+      timestamp: result.rows[0].now,
+    });
+  } catch (error) {
+    console.error("Database connection error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Database connection failed",
+      error: error.message,
+    });
+  }
 });
 
-// API Routes
-app.get("/api/health", (req, res) => {
-  res.json({ status: "OK", message: "Server is healthy" });
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: "Something went wrong!" });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(3001, () => {
+  console.log("Server running on port 3001");
 });
