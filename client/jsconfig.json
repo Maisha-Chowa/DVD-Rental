@@ -1,0 +1,10 @@
+// jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": "src", // So you can import from 'components/...'
+    "paths": {
+      "*": ["*"]
+    }
+  },
+  "include": ["src"]
+}
