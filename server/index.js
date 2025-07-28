@@ -18,7 +18,6 @@ app.use("/api/v1", router);
 // Database connection test endpoint
 app.get("/api/test-db", async (req, res) => {
   try {
-    console.log("DB URL:", process.env.DATABASE_URL);
     const client = await pool.connect();
     const result = await client.query("SELECT NOW()");
     client.release();
