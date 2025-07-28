@@ -4,9 +4,14 @@ const app = express();
 require("dotenv").config();
 
 const pool = require("./db");
+const { default: router } = require("./src/routes");
 
+//parser
 app.use(cors());
 app.use(express.json());
+
+// application routes
+app.use("/api/v1", router);
 
 // Database connection test endpoint
 app.get("/api/test-db", async (req, res) => {
