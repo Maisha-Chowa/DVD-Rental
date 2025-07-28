@@ -1,5 +1,8 @@
-require("dotenv").config();
-const { Pool } = require("pg");
+import dotenv from "dotenv";
+import pkg from "pg";
+const { Pool } = pkg;
+
+dotenv.config();
 
 console.log("Testing database connection...");
 console.log("DATABASE_URL:", process.env.DATABASE_URL ? "Set" : "Not set");
