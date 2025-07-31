@@ -10,44 +10,43 @@ import {
 } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import {
-  useGetCustomersQuery,
-  useDeleteCustomerMutation,
+  useGetStaffQuery,
+  useDeleteStaffMutation,
 } from "../../services/rtkQueryApi";
 
 const { Title } = Typography;
 
-const Customers = () => {
-  const { data: customers = [], isLoading, error } = useGetCustomersQuery();
-  const [deleteCustomer, { isLoading: isDeleting }] =
-    useDeleteCustomerMutation();
+const Staff = () => {
+  const { data: staff = [], isLoading, error } = useGetStaffQuery();
+  const [deleteStaff, { isLoading: isDeleting }] = useDeleteStaffMutation();
 
   // Handle error
   React.useEffect(() => {
     if (error) {
-      message.error("Failed to fetch customers");
+      message.error("Failed to fetch staff");
     }
   }, [error]);
 
-  const handleDelete = async (customerId) => {
+  const handleDelete = async (staffId) => {
     try {
-      await deleteCustomer(customerId).unwrap();
-      message.success("Customer deleted successfully");
+      await deleteStaff(staffId).unwrap();
+      message.success("Staff member deleted successfully");
     } catch {
-      message.error("Failed to delete customer");
+      message.error("Failed to delete staff member");
     }
   };
 
   const handleEdit = (record) => {
     // TODO: Implement edit functionality
-    message.info(`Edit customer: ${record.first_name} ${record.last_name}`);
+    message.info(`Edit staff: ${record.first_name} ${record.last_name}`);
   };
 
   const columns = [
     {
-      title: "Customer ID",
-      dataIndex: "customer_id",
-      key: "customer_id",
-      width: 120,
+      title: "Staff ID",
+      dataIndex: "staff_id",
+      key: "staff_id",
+      width: 100,
     },
     {
       title: "First Name",
@@ -68,6 +67,12 @@ const Customers = () => {
       width: 200,
     },
     {
+      title: "Store ID",
+      dataIndex: "store_id",
+      key: "store_id",
+      width: 100,
+    },
+    {
       title: "Active",
       dataIndex: "active",
       key: "active",
@@ -79,11 +84,10 @@ const Customers = () => {
       ),
     },
     {
-      title: "Create Date",
-      dataIndex: "create_date",
-      key: "create_date",
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
       width: 150,
-      render: (date) => new Date(date).toLocaleDateString(),
     },
     {
       title: "Last Update",
@@ -107,9 +111,9 @@ const Customers = () => {
             Edit
           </Button>
           <Popconfirm
-            title="Are you sure you want to delete this customer?"
+            title="Are you sure you want to delete this staff member?"
             description="This action cannot be undone."
-            onConfirm={() => handleDelete(record.customer_id)}
+            onConfirm={() => handleDelete(record.staff_id)}
             okText="Yes"
             cancelText="No"
           >
@@ -132,25 +136,25 @@ const Customers = () => {
     <div style={{ padding: "24px" }}>
       <Card>
         <Title level={2} style={{ marginBottom: "24px" }}>
-          Customers
+          Staff
         </Title>
         <Table
           columns={columns}
-          dataSource={customers}
-          rowKey="customer_id"
+          dataSource={staff}
+          rowKey="staff_id"
           loading={isLoading}
           pagination={{
             pageSize: 10,
             showSizeChanger: true,
             showQuickJumper: true,
             showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} customers`,
+              `${range[0]}-${range[1]} of ${total} staff members`,
           }}
-          scroll={{ x: 1200 }}
+          scroll={{ x: 1400 }}
         />
       </Card>
     </div>
   );
 };
 
-export default Customers;
+export default Staff;

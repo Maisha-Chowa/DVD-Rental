@@ -4,6 +4,9 @@ import {
   LaptopOutlined,
   NotificationOutlined,
   UserOutlined,
+  DatabaseOutlined,
+  TeamOutlined,
+  ShopOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -35,9 +38,24 @@ const AdminLayout = () => {
       label: "Films",
     },
     {
+      key: "/inventory",
+      icon: <DatabaseOutlined />,
+      label: "Inventory",
+    },
+    {
       key: "/rentals",
       icon: <NotificationOutlined />,
       label: "Rentals",
+    },
+    {
+      key: "/staff",
+      icon: <TeamOutlined />,
+      label: "Staff",
+    },
+    {
+      key: "/store",
+      icon: <ShopOutlined />,
+      label: "Store",
     },
     {
       key: "/payments",
@@ -45,7 +63,7 @@ const AdminLayout = () => {
       label: "Payments",
     },
     {
-      key: "/Reports",
+      key: "/reports",
       icon: <NotificationOutlined />,
       label: "Reports",
     },
